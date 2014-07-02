@@ -1,7 +1,7 @@
 gulp-webapp-mod
 ===============
 
-Modified gulp-webapp (yeoman) file structure with gulp HTML partial and SVG tasks
+Modified gulp-webapp ([here](https://github.com/yeoman/generator-gulp-webapp)) file structure with gulp HTML partial and SVG tasks
 
 
 ##install
