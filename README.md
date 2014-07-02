@@ -7,10 +7,10 @@ Modified gulp-webapp (yeoman) file structure with gulp HTML partial and SVG task
 ##install
 
 
-'''npm install'''
+```npm install```
 
 
-'''bower update'''
+```bower update```
 
 
-'''bundle'''
+```bundle```
