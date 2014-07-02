@@ -10,13 +10,26 @@ var cssshrink = require('gulp-cssshrink');
 var svgmin = require('gulp-svgmin');
 var svg2png = require('gulp-svg2png');
 
+// watching or not
+var watching = false;
+
+// handle errors without breaking watch
+function handleError(err) {
+  console.log(err.toString());
+    if (watching) {
+        this.emit('end');
+    }
+}
+
 // build scss into stylesheet, prefix, shrink & output to .tmp
 gulp.task('styles', function () {
     return gulp.src('app/styles/main.scss')
         .pipe($.rubySass({
             style: 'expanded',
+            // require: 'susy',
             precision: 10
         }))
+        .on("error", handleError)
         .pipe($.autoprefixer('last 1 version'))
         .pipe(cssshrink())
         .pipe(gulp.dest('.tmp/styles'))
@@ -138,7 +151,7 @@ gulp.task('connect', function () {
         });
 });
 
-gulp.task('serve', ['connect', 'html', 'styles'], function () {
+gulp.task('serve', ['connect', 'html'], function () {
     require('opn')('http://localhost:9000');
 });
 
@@ -163,6 +176,7 @@ gulp.task('wiredep', function () {
 gulp.task('watch', ['connect', 'serve'], function () {
     var server = $.livereload();
 
+    watching = true;
     gulp.watch([
         '.tmp/*.html',
         '.tmp/styles/**/*.css',
@@ -175,6 +189,6 @@ gulp.task('watch', ['connect', 'serve'], function () {
     gulp.watch('app/styles/**/*.scss', ['styles']);
     gulp.watch('app/scripts/**/*.js', ['scripts']);
     gulp.watch('app/images/**/*', ['images']);
-    gulp.watch('app/**/*.html', ['html']);
+    gulp.watch('app/templates/**/*.html', ['html']);
     gulp.watch('bower.json', ['wiredep']);
 });
